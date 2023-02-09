@@ -1,18 +1,19 @@
+import React from "react";
 import { FieldBox } from "../atoms/FieldBox";
 import { ModalBase } from "./ModalBase";
 
 interface Props {
-  isOpen: boolean;
-  handleClose: () => void;
+  showModal: boolean;
+  hideModal: () => void;
 }
 
-export const InstructionsModal = ({ isOpen, handleClose }: Props) => {
+export const InstructionsModal = ({ showModal, hideModal }: Props) => {
   return (
     <ModalBase
       buttonText="!JUGAR¡"
       title="Cómo jugar"
-      isOpen={isOpen}
-      handleClose={handleClose}
+      showModal={showModal}
+      hideModal={hideModal}
     >
       <p className="px-4 py-1 text-justify text-sm text-gray-800 dark:text-gray-100">
         Adivina la palabra oculta en cinco intentos.

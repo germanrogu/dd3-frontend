@@ -1,17 +1,18 @@
+import React from "react";
 import { ModalBase } from "./ModalBase";
 
 interface Props {
-  isOpen: boolean;
-  handleClose: () => void;
+  showModal: boolean;
+  hideModal: () => void;
 }
 
-export const StatisticsModal = ({ isOpen, handleClose }: Props) => {
+export const StatisticsModal = ({ showModal, hideModal }: Props) => {
   return (
     <ModalBase
       buttonText="Aceptar"
       title="Estadísticas"
-      isOpen={isOpen}
-      handleClose={handleClose}
+      showModal={showModal}
+      hideModal={hideModal}
     >
       <></>
     </ModalBase>

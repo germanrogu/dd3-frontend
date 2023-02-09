@@ -1,10 +1,11 @@
 import { Button, Modal } from "antd";
+import React from "react";
 
 interface Props {
   title: string;
   children: React.ReactNode;
-  isOpen: boolean;
-  handleClose: () => void;
+  showModal: boolean;
+  hideModal: () => void;
   buttonText: string;
 }
 
@@ -12,14 +13,14 @@ export const ModalBase = ({
   buttonText,
   title,
   children,
-  isOpen,
-  handleClose,
+  showModal,
+  hideModal,
 }: Props) => {
   return (
     <>
       <Modal
-        open={isOpen}
-        onCancel={handleClose}
+        open={showModal}
+        onCancel={hideModal}
         cancelButtonProps={{ style: { display: "none" } }}
         footer={[
           <div className="flex justify-center">
@@ -35,7 +36,7 @@ export const ModalBase = ({
               }}
               key="open"
               type="primary"
-              onClick={handleClose}
+              onClick={hideModal}
             >
               {buttonText}
             </Button>

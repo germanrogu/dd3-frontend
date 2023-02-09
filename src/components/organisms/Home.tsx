@@ -53,12 +53,12 @@ export const Home = () => {
           // guesses={guesses}
         />
         <InstructionsModal
-          isOpen={isInfoModalOpen}
-          handleClose={() => setIsInfoModalOpen(false)}
+          showModal={isInfoModalOpen}
+          hideModal={() => setIsInfoModalOpen(false)}
         />
         <StatisticsModal
-          isOpen={isStatsModalOpen}
-          handleClose={() => setIsStatsModalOpen(false)}
+          showModal={isStatsModalOpen}
+          hideModal={() => setIsStatsModalOpen(false)}
         />
       </div>
     </div>
