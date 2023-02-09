@@ -7,27 +7,30 @@ import { Dispatch } from "react";
 interface Props {
   darkToggle: boolean;
   setDarkToggle: Dispatch<React.SetStateAction<boolean>>;
-  showInstructions: () => void;
-  showStatistics: () => void;
+  setIsInfoModalOpen: Dispatch<React.SetStateAction<boolean>>;
+  setIsStatsModalOpen: Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const PrincipalBar = ({
   darkToggle,
   setDarkToggle,
-  showInstructions,
-  showStatistics,
+  setIsInfoModalOpen,
+  setIsStatsModalOpen,
 }: Props) => {
   return (
     <div className="max-w-lg flex flex-row flex-nowrap justify-center items-center">
       <ButtonModal
         className={"mx-10"}
-        clickFunction={showInstructions}
+        clickFunction={() => setIsInfoModalOpen(true)}
         type={"circle"}
       >
         <QuestionCircleOutlined />
       </ButtonModal>
       <GameTitle />
-      <ButtonModal className={"mx-10"} clickFunction={showStatistics}>
+      <ButtonModal
+        className={"mx-10"}
+        clickFunction={() => setIsStatsModalOpen(true)}
+      >
         <BarChartOutlined />
       </ButtonModal>
       <ToggleTheme darkToggle={darkToggle} setDarkToggle={setDarkToggle} />
