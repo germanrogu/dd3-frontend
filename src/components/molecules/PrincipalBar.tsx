@@ -18,12 +18,16 @@ export const PrincipalBar = ({
   showStatistics,
 }: Props) => {
   return (
-    <div className="flex flex-row flex-nowrap justify-center items-center">
-      <ButtonModal clickFunction={showInstructions} type={"circle"}>
+    <div className="max-w-lg flex flex-row flex-nowrap justify-center items-center">
+      <ButtonModal
+        className={"mx-10"}
+        clickFunction={showInstructions}
+        type={"circle"}
+      >
         <QuestionCircleOutlined />
       </ButtonModal>
       <GameTitle />
-      <ButtonModal clickFunction={showStatistics}>
+      <ButtonModal className={"mx-10"} clickFunction={showStatistics}>
         <BarChartOutlined />
       </ButtonModal>
       <ToggleTheme darkToggle={darkToggle} setDarkToggle={setDarkToggle} />
