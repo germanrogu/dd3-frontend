@@ -1,5 +1,8 @@
-import { useState } from "react";
+import React from "react";
+import { useEffect, useState } from "react";
+import { solution } from "../../utils/getRandomWord";
 import { Paper } from "../atoms/Paper";
+import { GameGrid } from "../molecules/GameGrid";
 import { InstructionsModal } from "../molecules/InstructionsModal";
 import { Keyboard } from "../molecules/Keyboard";
 import { PrincipalBar } from "../molecules/PrincipalBar";
@@ -9,22 +12,18 @@ export const Home = () => {
   const [darkToggle, setDarkToggle] = useState<boolean>(false);
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
   const [isStatsModalOpen, setIsStatsModalOpen] = useState(false);
+  const [wordsCompleted, setWordsCompleted] = useState<string[]>([]);
+  const [solutionWord, setSolutionWord] = useState();
 
-  const onChar = (value: string) => {
-    // if (
-    //   unicodeLength(`${currentGuess}${value}`) <= solution.length &&
-    //   guesses.length < MAX_CHALLENGES &&
-    //   !isGameWon
-    // ) {
-    //   setCurrentGuess(`${currentGuess}${value}`)
-    // }
-  };
+  useEffect(() => {
+    solution.then((res: any) => {
+      setSolutionWord(res);
+    });
+  }, []);
 
-  const onDelete = () => {
-    // setCurrentGuess(
-    //   new GraphemeSplitter().splitGraphemes(currentGuess).slice(0, -1).join('')
-    // )
-  };
+  const onChar = (value: string) => {};
+
+  const onDelete = () => {};
 
   const onEnter = () => {};
   return (
@@ -39,18 +38,12 @@ export const Home = () => {
           setIsStatsModalOpen={setIsStatsModalOpen}
         />
         <Paper>
-          <div className="px-6 py-4">
-            <p className="text-gray-800 dark:text-gray-200">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Voluptatibus quia, nulla! Maiores et perferendis eaque,
-              exercitationem praesentium nihil.
-            </p>
-          </div>
-          <div className="px-6 pt-4 pb-2">
-            <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-              #photography
-            </span>
-          </div>
+          {solutionWord && (
+            <GameGrid
+              wordSolution={solutionWord!}
+              wordsCompleted={wordsCompleted}
+            />
+          )}
         </Paper>
         <Keyboard
           onChar={onChar}
