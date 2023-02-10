@@ -1,12 +1,23 @@
 import React from "react";
+import { TextTitleBase } from "../atoms/TextTitleBase";
+import { Timer } from "../atoms/Timer";
 import { ModalBase } from "./ModalBase";
 
 interface Props {
   showModal: boolean;
   hideModal: () => void;
+  minutes: number;
+  counterVictory: number;
+  counterDefeat: number;
 }
 
-export const StatisticsModal = ({ showModal, hideModal }: Props) => {
+export const StatisticsModal = ({
+  minutes,
+  counterVictory,
+  counterDefeat,
+  showModal,
+  hideModal,
+}: Props) => {
   return (
     <ModalBase
       buttonText="Aceptar"
@@ -14,7 +25,24 @@ export const StatisticsModal = ({ showModal, hideModal }: Props) => {
       showModal={showModal}
       hideModal={hideModal}
     >
-      <></>
+      <div className="flex py-4 flex-row flex-nowrap justify-center ">
+        <p className="px-4  font-bold text-sm text-gray-800 dark:text-gray-100">
+          Victorias
+        </p>
+        <TextTitleBase>{counterVictory}</TextTitleBase>
+        <p className="px-4 text-center font-bold text-sm text-gray-800 dark:text-gray-100">
+          Derrotas
+        </p>
+        <TextTitleBase>{counterDefeat}</TextTitleBase>
+      </div>
+
+      <p className="px-4 py-1 text-center font-bold text-sm text-gray-800 dark:text-gray-100">
+        Siguiente palabra
+      </p>
+      <Timer
+        minutes={Math.floor(minutes / 60)}
+        seconds={minutes - Math.floor(minutes / 60) * 60}
+      />
     </ModalBase>
   );
 };

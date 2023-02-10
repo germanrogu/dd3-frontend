@@ -11,7 +11,6 @@ import { DICTIONARY } from "../../utils/constants/Dictionary";
 import Swal from "sweetalert2";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { GRID_GAMES_VALUE } from "../../utils/constants/values";
-import { Timer } from "../atoms/Timer";
 
 export const Home = () => {
   const [solutionWord, setSolutionWord] = useState("");
@@ -29,6 +28,11 @@ export const Home = () => {
   const [darkToggle, setDarkToggle] = useState<boolean>(
     theme === null ? false : theme === "light" ? false : true
   );
+  const [counterVictory, setCounterVictory] = useLocalStorage(
+    0,
+    "counterVictory"
+  );
+  const [counterDefeat, setCounterDefeat] = useLocalStorage(0, "counterDefeat");
 
   useEffect(() => {
     let interval: string | number | NodeJS.Timeout | undefined;
@@ -84,8 +88,10 @@ export const Home = () => {
             if (result.isConfirmed) {
               setTimeout(() => {
                 setIsStatsModalOpen(true);
+
                 setGameState({});
                 setMinutes(0);
+                setCounterVictory((victory: number) => victory + 1);
               }, 400);
             }
           });
@@ -108,10 +114,6 @@ export const Home = () => {
       return;
     }
 
-    const validationWord =
-      inputWord.split("").length === solutionWord.length &&
-      wordsCompleted.length < GRID_GAMES_VALUE;
-
     if (wordsCompleted.length === GRID_GAMES_VALUE) {
       setIsDefeat(true);
       Swal.fire({
@@ -120,19 +122,15 @@ export const Home = () => {
                    Gracias por jugar.`,
         icon: "success",
         confirmButtonText: "Jugar de nuevo",
-      });
-      return;
-    }
-
-    if (!validationWord) {
-      Swal.fire({
-        position: "top-end",
-        icon: "warning",
-        title: "Faltan letras",
-        showConfirmButton: false,
-        timer: 1500,
-        width: 300,
-        heightAuto: true,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          setTimeout(() => {
+            setIsStatsModalOpen(true);
+            setGameState({});
+            setMinutes(0);
+            setCounterDefeat((defeat: number) => defeat + 1);
+          }, 400);
+        }
       });
       return;
     }
@@ -181,11 +179,6 @@ export const Home = () => {
           />
         </Paper>
 
-        <Timer
-          minutes={Math.floor(minutes / 60)}
-          seconds={minutes - Math.floor(minutes / 60) * 60}
-        />
-
         <div className="mx-auto flex w-full grow flex-col px-1 pt-2 pb-8 sm:px-6 md:max-w-7xl lg:px-8 short:pb-2 short:pt-2">
           <div className="flex grow flex-col justify-center pb-6 short:pb-2">
             <Paper>
@@ -210,6 +203,9 @@ export const Home = () => {
             hideModal={() => setIsInfoModalOpen(false)}
           />
           <StatisticsModal
+            counterVictory={counterVictory}
+            counterDefeat={counterDefeat}
+            minutes={minutes}
             showModal={isStatsModalOpen}
             hideModal={() => setIsStatsModalOpen(false)}
           />
