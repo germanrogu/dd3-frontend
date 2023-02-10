@@ -136,6 +136,19 @@ export const Home = () => {
       return;
     }
 
+    if (!(inputWord.split("").length === solutionWord.length)) {
+      Swal.fire({
+        position: "top-end",
+        icon: "warning",
+        title: "Faltan letras",
+        showConfirmButton: false,
+        timer: 1500,
+        width: 300,
+        heightAuto: true,
+      });
+      return;
+    }
+
     if (!DICTIONARY.includes(inputWord.toLowerCase())) {
       Swal.fire({
         position: "top-end",
