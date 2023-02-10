@@ -1,4 +1,5 @@
 import React from "react";
+import { getLetterStatus } from "../../utils/compareStatusLetter";
 import { FieldBox } from "../atoms/FieldBox";
 import { RowInputWord } from "./RowInputWord";
 interface Props {
@@ -27,10 +28,14 @@ export const GameGrid = ({
 
       {wordsCompleted.map((word, i) => {
         const splitWord = word.split("");
+
+        const letterStatus = getLetterStatus(wordSolution, word);
+        console.log(letterStatus);
+
         return (
           <div key={i} className="mb-1 flex justify-center">
             {splitWord.map((letter, i) => (
-              <FieldBox key={i} value={letter} />
+              <FieldBox key={i} value={letter} status={letterStatus[i]} />
             ))}
           </div>
         );
