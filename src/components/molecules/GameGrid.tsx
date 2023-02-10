@@ -20,8 +20,6 @@ export const GameGrid = ({
   const remainingSpaces = GRID_GAMES_VALUE - wordsCompleted.length - 1;
   const empties = Array.from(Array(Math.max(0, remainingSpaces)));
 
-  console.log(wordSolution);
-
   return (
     <>
       {wordsCompleted.map((word, i) => {
