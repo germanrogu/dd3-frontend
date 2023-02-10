@@ -46,7 +46,7 @@ export const Keyboard = ({ onAnyKey, onDeleteKey, onEnterKey }: Props) => {
   }, [onEnterKey, onDeleteKey, onAnyKey]);
 
   return (
-    <div>
+    <div className="flex grow flex-col justify-center mx-5">
       <div className="ml-8 mb-1 flex justify-center">
         {["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"].map((key) => (
           <Key value={key} key={key} onClick={onClick} />
@@ -57,7 +57,7 @@ export const Keyboard = ({ onAnyKey, onDeleteKey, onEnterKey }: Props) => {
           <Key value={key} key={key} onClick={onClick} />
         ))}
       </div>
-      <div className="-ml-12 flex justify-center">
+      <div className="-ml-4 flex justify-center">
         <Key value="ENTER" onClick={onClick}>
           {"ENTER"}
         </Key>
