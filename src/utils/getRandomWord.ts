@@ -1,11 +1,9 @@
 import { DICTIONARY } from "./constants/Dictionary";
 
-const getRandomInt = (max: number) => {
-  return Math.floor(Math.random() * max);
-};
+const getRandomInt = (max: number) => Math.floor(Math.random() * max);
 
 const getRandomWord = (): Promise<string> => {
-  const index = getRandomInt(620000);
+  const index = getRandomInt(DICTIONARY.length - 1);
   if (index < 0) {
     throw new Error("Invalid index");
   }
