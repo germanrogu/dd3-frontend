@@ -1,11 +1,17 @@
 import React from "react";
 import { FieldBox } from "../atoms/FieldBox";
+import { RowInputWord } from "./RowInputWord";
 interface Props {
   wordSolution: string;
   wordsCompleted: string[];
+  inputWord: string;
 }
 
-export const GameGrid = ({ wordSolution, wordsCompleted }: Props) => {
+export const GameGrid = ({
+  inputWord,
+  wordSolution,
+  wordsCompleted,
+}: Props) => {
   const rowsEmpties =
     wordsCompleted.length < 5
       ? new Array(5 - wordsCompleted.length).fill(undefined)
@@ -15,6 +21,10 @@ export const GameGrid = ({ wordSolution, wordsCompleted }: Props) => {
 
   return (
     <>
+      {wordsCompleted.length < 4 && (
+        <RowInputWord wordSolution={wordSolution} inputWord={inputWord} />
+      )}
+
       {wordsCompleted.map((word, i) => {
         const splitWord = word.split("");
         return (
@@ -25,11 +35,10 @@ export const GameGrid = ({ wordSolution, wordsCompleted }: Props) => {
           </div>
         );
       })}
-
       {rowsEmpties.map((_, i) => {
         return (
           <div key={i} className="mb-1 flex justify-center">
-            {Array.from(Array(5)).map((_, i) => (
+            {Array.from(Array(wordSolution.length)).map((_, i) => (
               <FieldBox key={i} />
             ))}
           </div>
