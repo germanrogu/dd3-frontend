@@ -26,3 +26,13 @@ export const getLetterStatus = (
 
   return statuses;
 };
+
+export function isStringInArray(string: any, array: any) {
+  for (let item of array) {
+    let normalizedItem = item.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    if (normalizedItem.includes(string)) {
+      return true;
+    }
+  }
+  return false;
+}

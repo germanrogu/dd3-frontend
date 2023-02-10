@@ -11,6 +11,7 @@ import { DICTIONARY } from "../../utils/constants/Dictionary";
 import Swal from "sweetalert2";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { GRID_GAMES_VALUE } from "../../utils/constants/values";
+import { isStringInArray } from "../../utils/compareStatusLetter";
 
 export const Home = () => {
   const [solutionWord, setSolutionWord] = useState("");
@@ -149,7 +150,7 @@ export const Home = () => {
       return;
     }
 
-    if (!DICTIONARY.includes(inputWord.toLowerCase())) {
+    if (!isStringInArray(inputWord.toLowerCase(), DICTIONARY)) {
       Swal.fire({
         position: "top-end",
         icon: "warning",
