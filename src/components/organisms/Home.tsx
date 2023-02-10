@@ -8,14 +8,27 @@ import { PrincipalBar } from "../molecules/PrincipalBar";
 import { StatisticsModal } from "../molecules/StatisticsModal";
 import { DICTIONARY } from "../../utils/constants/Dictionary";
 import Swal from "sweetalert2";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { GRID_GAMES_VALUE } from "../../utils/constants/values";
 
 export const Home = () => {
-  const [darkToggle, setDarkToggle] = useState<boolean>(false);
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
   const [isStatsModalOpen, setIsStatsModalOpen] = useState(false);
   const [wordsCompleted, setWordsCompleted] = useState<string[]>([]);
+  const [isVictory, setIsVictory] = useState(false);
+  const [isDefeat, setIsDefeat] = useState(false);
   const [inputWord, setInputWord] = useState("");
   const [solutionWord, setSolutionWord] = useState("");
+  const [gameState, setGameState] = useLocalStorage({}, "gameState");
+  const [theme, setTheme] = useLocalStorage(null, "theme");
+  const [darkToggle, setDarkToggle] = useState<boolean>(
+    theme === null ? false : theme === "light" ? false : true
+  );
+
+  const darkMode = (value: boolean) => {
+    setDarkToggle(value);
+    setTheme(value ? "dark" : "light");
+  };
 
   useEffect(() => {
     solution.then((res: any) => {
@@ -23,17 +36,75 @@ export const Home = () => {
     });
   }, []);
 
+  useEffect(() => {
+    setGameState({ solutionWord });
+  }, [solutionWord]);
+
+  useEffect(() => {
+    if (gameState.wordsCompleted) {
+      setTimeout(() => {
+        setIsInfoModalOpen(true);
+      }, 300);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isVictory) {
+      setTimeout(() => {
+        const swalWithBootstrapButtons = Swal.mixin({
+          customClass: {
+            confirmButton: "btn btn-success",
+          },
+        });
+        swalWithBootstrapButtons
+          .fire({
+            title: "¡Victoria!",
+            text: "Gracias por jugar.",
+            icon: "success",
+            confirmButtonText: "Jugar de nuevo",
+          })
+          .then((result) => {
+            if (result.isConfirmed) {
+              setTimeout(() => {
+                setIsStatsModalOpen(true);
+              }, 300);
+            }
+          });
+      }, 400);
+    }
+
+    if (isDefeat) {
+      setTimeout(() => {
+        setIsStatsModalOpen(true);
+      }, 1000);
+    }
+  }, [isVictory, isDefeat]);
+
   const onDeleteKey = () => {
     setInputWord(inputWord.substring(0, inputWord.length - 1));
   };
 
   const onEnterKey = () => {
-    console.log("Entro");
+    if (isVictory || isDefeat) {
+      return;
+    }
+
     const validationWord =
       inputWord.split("").length === solutionWord.length &&
-      wordsCompleted.length < 5;
+      wordsCompleted.length < GRID_GAMES_VALUE;
 
-    if (!(inputWord.split("").length === solutionWord.length)) {
+    if (wordsCompleted.length === GRID_GAMES_VALUE) {
+      setIsDefeat(true);
+      Swal.fire({
+        title: "Derrota!",
+        text: `La solucion ${solutionWord} 
+                   Gracias por jugar.`,
+        icon: "success",
+        confirmButtonText: "Jugar de nuevo",
+      });
+    }
+
+    if (!validationWord) {
       return Swal.fire({
         position: "top-end",
         icon: "warning",
@@ -57,14 +128,14 @@ export const Home = () => {
       });
     }
 
-    const winningWord = solutionWord === inputWord;
-
     if (validationWord) {
       setWordsCompleted([...wordsCompleted, inputWord]);
       setInputWord("");
-    }
+      // setGameState({ inputWord, solutionWord });
 
-    if (winningWord) {
+      if (solutionWord === inputWord) {
+        return setIsVictory(true);
+      }
     }
   };
 
@@ -72,7 +143,8 @@ export const Home = () => {
     const input = `${inputWord}${key}`;
     const validationKey =
       input.split("").length <= solutionWord.length &&
-      wordsCompleted.length < 5;
+      wordsCompleted.length < GRID_GAMES_VALUE &&
+      !isVictory;
     if (validationKey) setInputWord(input);
   };
 
@@ -84,7 +156,7 @@ export const Home = () => {
         <Paper>
           <PrincipalBar
             darkToggle={darkToggle}
-            setDarkToggle={setDarkToggle}
+            darkMode={darkMode}
             setIsInfoModalOpen={setIsInfoModalOpen}
             setIsStatsModalOpen={setIsStatsModalOpen}
           />
