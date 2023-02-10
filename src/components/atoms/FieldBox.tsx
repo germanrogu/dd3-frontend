@@ -9,7 +9,9 @@ interface Props {
 export const FieldBox = ({ value, status }: Props) => {
   const baseClasses =
     "text-black w-14 h-14 border-solid border-2 flex items-center justify-center mx-0.5 text-4xl font-bold rounded";
-  const darkClasses = "dark:text-white dark:bg-zinc-600 dark:border-zinc-800";
+  const darkClasses = `dark:text-white ${
+    !status && "dark:bg-zinc-600"
+  } dark:border-zinc-800`;
 
   const classes = classNames(baseClasses, darkClasses, {
     "bg-white border-slate-200": !status,
