@@ -8,12 +8,14 @@ interface Props {
   wordSolution: string;
   wordsCompleted: string[];
   inputWord: string;
+  onEnterKey: () => void;
 }
 
 export const GameGrid = ({
   wordSolution,
   wordsCompleted,
   inputWord,
+  onEnterKey,
 }: Props) => {
   const remainingSpaces = GRID_GAMES_VALUE - wordsCompleted.length - 1;
   const empties = Array.from(Array(Math.max(0, remainingSpaces)));
@@ -35,7 +37,11 @@ export const GameGrid = ({
       })}
 
       {wordsCompleted.length < GRID_GAMES_VALUE && (
-        <RowInputWord wordSolution={wordSolution} inputWord={inputWord} />
+        <RowInputWord
+          wordSolution={wordSolution}
+          inputWord={inputWord}
+          onEnterKey={onEnterKey}
+        />
       )}
 
       {empties.map((_, i) => (
