@@ -79,38 +79,46 @@ export const Home = () => {
   return (
     <div className={`${darkToggle && "dark"}`}>
       <div
-        className={`h-screen w-full flex items-center justify-center bg-gray-100 flex-col dark:bg-gray-900`}
+        className={`w-full flex h-screen flex-col justify-center bg-zinc-100 flex-col dark:bg-zinc-900`}
       >
-        <PrincipalBar
-          darkToggle={darkToggle}
-          setDarkToggle={setDarkToggle}
-          setIsInfoModalOpen={setIsInfoModalOpen}
-          setIsStatsModalOpen={setIsStatsModalOpen}
-        />
         <Paper>
-          {solutionWord && (
-            <GameGrid
-              inputWord={inputWord}
-              wordSolution={solutionWord}
-              wordsCompleted={wordsCompleted}
-            />
-          )}
+          <PrincipalBar
+            darkToggle={darkToggle}
+            setDarkToggle={setDarkToggle}
+            setIsInfoModalOpen={setIsInfoModalOpen}
+            setIsStatsModalOpen={setIsStatsModalOpen}
+          />
         </Paper>
-        <Keyboard
-          onEnterKey={onEnterKey}
-          onAnyKey={onAnyKey}
-          onDeleteKey={onDeleteKey}
-          // solution={solution}
-          // guesses={guesses}
-        />
-        <InstructionsModal
-          showModal={isInfoModalOpen}
-          hideModal={() => setIsInfoModalOpen(false)}
-        />
-        <StatisticsModal
-          showModal={isStatsModalOpen}
-          hideModal={() => setIsStatsModalOpen(false)}
-        />
+
+        <div className="mx-auto flex w-full grow flex-col px-1 pt-2 pb-8 sm:px-6 md:max-w-7xl lg:px-8 short:pb-2 short:pt-2">
+          <div className="flex grow flex-col justify-center pb-6 short:pb-2">
+            <Paper>
+              {solutionWord && (
+                <GameGrid
+                  inputWord={inputWord}
+                  wordSolution={solutionWord}
+                  wordsCompleted={wordsCompleted}
+                />
+              )}
+            </Paper>
+          </div>
+
+          <Keyboard
+            onEnterKey={onEnterKey}
+            onAnyKey={onAnyKey}
+            onDeleteKey={onDeleteKey}
+            // solution={solution}
+            // guesses={guesses}
+          />
+          <InstructionsModal
+            showModal={isInfoModalOpen}
+            hideModal={() => setIsInfoModalOpen(false)}
+          />
+          <StatisticsModal
+            showModal={isStatsModalOpen}
+            hideModal={() => setIsStatsModalOpen(false)}
+          />
+        </div>
       </div>
     </div>
   );

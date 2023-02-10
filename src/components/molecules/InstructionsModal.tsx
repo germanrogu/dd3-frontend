@@ -29,7 +29,7 @@ export const InstructionsModal = ({ showModal, hideModal }: Props) => {
         Ejemplos
       </p>
       <div className="mb-2 mt-2 flex justify-center">
-        <FieldBox value="G" status="correct" />
+        <FieldBox value="G" status="correcto" />
         <FieldBox value="A" />
         <FieldBox value="T" />
         <FieldBox value="O" />
@@ -41,7 +41,7 @@ export const InstructionsModal = ({ showModal, hideModal }: Props) => {
       <div className="mb-2 mt-2 flex justify-center">
         <FieldBox value="V" />
         <FieldBox value="O" />
-        <FieldBox value="C" status="present" />
+        <FieldBox value="C" status="presente" />
         <FieldBox value="A" />
         <FieldBox value="L" />
       </div>
@@ -53,7 +53,7 @@ export const InstructionsModal = ({ showModal, hideModal }: Props) => {
         <FieldBox value="A" />
         <FieldBox value="N" />
         <FieldBox value="T" />
-        <FieldBox value="O" status="absent" />
+        <FieldBox value="O" status="nada" />
       </div>
       <p className="px-4 py-2 text-justify text-sm text-gray-800 dark:text-gray-100">
         La letra <b>O</b> no está en la palabra.

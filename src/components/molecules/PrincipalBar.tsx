@@ -18,7 +18,7 @@ export const PrincipalBar = ({
   setIsStatsModalOpen,
 }: Props) => {
   return (
-    <div className="max-w-lg flex flex-row flex-nowrap justify-center items-center">
+    <div className="flex flex-row flex-nowrap justify-center items-center align-center">
       <ButtonModal
         className={"mx-10"}
         clickFunction={() => setIsInfoModalOpen(true)}
