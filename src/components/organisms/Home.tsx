@@ -12,14 +12,16 @@ import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { GRID_GAMES_VALUE } from "../../utils/constants/values";
 
 export const Home = () => {
+  const [solutionWord, setSolutionWord] = useState("");
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
   const [isStatsModalOpen, setIsStatsModalOpen] = useState(false);
-  const [wordsCompleted, setWordsCompleted] = useState<string[]>([]);
+  const [gameState, setGameState] = useLocalStorage({}, "gameState");
+  const [wordsCompleted, setWordsCompleted] = useState<any>(() => {
+    return Object.keys(gameState).length !== 0 ? gameState.wordsCompleted : [];
+  });
   const [isVictory, setIsVictory] = useState(false);
   const [isDefeat, setIsDefeat] = useState(false);
   const [inputWord, setInputWord] = useState("");
-  const [solutionWord, setSolutionWord] = useState("");
-  const [gameState, setGameState] = useLocalStorage({}, "gameState");
   const [theme, setTheme] = useLocalStorage(null, "theme");
   const [darkToggle, setDarkToggle] = useState<boolean>(
     theme === null ? false : theme === "light" ? false : true
@@ -33,15 +35,12 @@ export const Home = () => {
   useEffect(() => {
     solution.then((res: any) => {
       setSolutionWord(res);
+      setGameState({ wordsCompleted, solution: res });
     });
-  }, []);
+  }, [wordsCompleted]);
 
   useEffect(() => {
-    setGameState({ solutionWord });
-  }, [solutionWord]);
-
-  useEffect(() => {
-    if (gameState.wordsCompleted) {
+    if (Object.keys(gameState).length === 0) {
       setTimeout(() => {
         setIsInfoModalOpen(true);
       }, 300);
@@ -67,7 +66,8 @@ export const Home = () => {
             if (result.isConfirmed) {
               setTimeout(() => {
                 setIsStatsModalOpen(true);
-              }, 300);
+                setGameState({});
+              }, 400);
             }
           });
       }, 400);
@@ -102,10 +102,11 @@ export const Home = () => {
         icon: "success",
         confirmButtonText: "Jugar de nuevo",
       });
+      return;
     }
 
     if (!validationWord) {
-      return Swal.fire({
+      Swal.fire({
         position: "top-end",
         icon: "warning",
         title: "Faltan letras",
@@ -114,10 +115,11 @@ export const Home = () => {
         width: 300,
         heightAuto: true,
       });
+      return;
     }
 
     if (!DICTIONARY.includes(inputWord.toLowerCase())) {
-      return Swal.fire({
+      Swal.fire({
         position: "top-end",
         icon: "warning",
         title: "Palabra no encontrada",
@@ -126,16 +128,14 @@ export const Home = () => {
         width: 300,
         heightAuto: true,
       });
+      return;
     }
 
-    if (validationWord) {
-      setWordsCompleted([...wordsCompleted, inputWord]);
-      setInputWord("");
-      // setGameState({ inputWord, solutionWord });
+    setWordsCompleted([...wordsCompleted, inputWord]);
+    setInputWord("");
 
-      if (solutionWord === inputWord) {
-        return setIsVictory(true);
-      }
+    if (solutionWord === inputWord) {
+      setIsVictory(true);
     }
   };
 
@@ -170,6 +170,7 @@ export const Home = () => {
                   inputWord={inputWord}
                   wordSolution={solutionWord}
                   wordsCompleted={wordsCompleted}
+                  onEnterKey={onEnterKey}
                 />
               )}
             </Paper>
@@ -179,8 +180,6 @@ export const Home = () => {
             onEnterKey={onEnterKey}
             onAnyKey={onAnyKey}
             onDeleteKey={onDeleteKey}
-            // solution={solution}
-            // guesses={guesses}
           />
           <InstructionsModal
             showModal={isInfoModalOpen}
