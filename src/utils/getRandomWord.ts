@@ -3,7 +3,7 @@ import { GRID_GAMES_VALUE } from "./constants/values";
 
 const getRandomInt = (max: number) => Math.floor(Math.random() * max);
 
-const removeAccents = (str: string) => {
+export const removeAccents = (str: string) => {
   return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 };
 
@@ -12,6 +12,7 @@ const getRandomWord = (): Promise<string> => {
   if (index < 0) {
     throw new Error("Invalid index");
   }
+
   const word = DICTIONARY[index % DICTIONARY.length].toUpperCase();
   return new Promise<string>((resolve) => {
     return resolve(word);
