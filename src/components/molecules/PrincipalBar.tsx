@@ -6,14 +6,14 @@ import { Dispatch } from "react";
 
 interface Props {
   darkToggle: boolean;
-  setDarkToggle: Dispatch<React.SetStateAction<boolean>>;
+  darkMode: (dark: boolean) => void;
   setIsInfoModalOpen: Dispatch<React.SetStateAction<boolean>>;
   setIsStatsModalOpen: Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const PrincipalBar = ({
   darkToggle,
-  setDarkToggle,
+  darkMode,
   setIsInfoModalOpen,
   setIsStatsModalOpen,
 }: Props) => {
@@ -33,7 +33,7 @@ export const PrincipalBar = ({
       >
         <BarChartOutlined />
       </ButtonModal>
-      <ToggleTheme darkToggle={darkToggle} setDarkToggle={setDarkToggle} />
+      <ToggleTheme darkToggle={darkToggle} darkMode={darkMode} />
     </div>
   );
 };

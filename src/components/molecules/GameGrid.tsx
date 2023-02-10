@@ -1,7 +1,9 @@
 import React from "react";
 import { getLetterStatus } from "../../utils/compareStatusLetter";
+import { GRID_GAMES_VALUE } from "../../utils/constants/values";
 import { FieldBox } from "../atoms/FieldBox";
 import { RowInputWord } from "./RowInputWord";
+
 interface Props {
   wordSolution: string;
   wordsCompleted: string[];
@@ -9,46 +11,40 @@ interface Props {
 }
 
 export const GameGrid = ({
-  inputWord,
   wordSolution,
   wordsCompleted,
+  inputWord,
 }: Props) => {
-  const rowsEmpties =
-    wordsCompleted.length < 5
-      ? new Array(5 - wordsCompleted.length).fill(undefined)
-      : [];
+  const remainingSpaces = GRID_GAMES_VALUE - wordsCompleted.length - 1;
+  const empties = Array.from(Array(Math.max(0, remainingSpaces)));
 
   console.log(wordSolution);
 
   return (
     <>
-      {wordsCompleted.length < 4 && (
+      {wordsCompleted.map((word, i) => {
+        const splitWord = word.split("");
+        const letterStatus = getLetterStatus(wordSolution, word);
+        return (
+          <div key={i} className="mb-1 flex justify-center">
+            {splitWord.map((letter, j) => (
+              <FieldBox key={j} value={letter} status={letterStatus[j]} />
+            ))}
+          </div>
+        );
+      })}
+
+      {wordsCompleted.length < GRID_GAMES_VALUE && (
         <RowInputWord wordSolution={wordSolution} inputWord={inputWord} />
       )}
 
-      {wordsCompleted.map((word, i) => {
-        const splitWord = word.split("");
-
-        const letterStatus = getLetterStatus(wordSolution, word);
-        console.log(letterStatus);
-
-        return (
-          <div key={i} className="mb-1 flex justify-center">
-            {splitWord.map((letter, i) => (
-              <FieldBox key={i} value={letter} status={letterStatus[i]} />
-            ))}
-          </div>
-        );
-      })}
-      {rowsEmpties.map((_, i) => {
-        return (
-          <div key={i} className="mb-1 flex justify-center">
-            {Array.from(Array(wordSolution.length)).map((_, i) => (
-              <FieldBox key={i} />
-            ))}
-          </div>
-        );
-      })}
+      {empties.map((_, i) => (
+        <div key={i} className="mb-1 flex justify-center">
+          {Array.from({ length: wordSolution.length }).map((_, j) => (
+            <FieldBox key={j} />
+          ))}
+        </div>
+      ))}
     </>
   );
 };
