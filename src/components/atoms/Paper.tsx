@@ -4,7 +4,7 @@ interface Prop {
 
 export const Paper = ({ children }: Prop) => {
   return (
-    <div className="max-w-lg rounded overflow-hidden bg-gray-200 p-5 rounded-lg mt-10 text-white dark:bg-gray-900">
+    <div className="w-auto rounded overflow-hidden bg-zinc-200 p-4 mt-1 mb-1 mx-auto text-white dark:bg-zinc-800">
       {children}
     </div>
   );
