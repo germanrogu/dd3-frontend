@@ -2,51 +2,56 @@ import React, { useEffect } from "react";
 import { Key } from "../atoms/Key";
 
 interface Props {
-  onChar: (value: string) => void;
-  onDelete: () => void;
-  onEnter: () => void;
+  onAnyKey: (value: string) => void;
+  onDeleteKey: () => void;
+  onEnterKey: () => void;
   // solution: string;
   // guesses: string[];
 }
 
 export const Keyboard = ({
-  onChar,
-  onDelete,
-  onEnter,
+  onAnyKey,
+  onDeleteKey,
+  onEnterKey,
 }: // solution,
 // guesses,
 Props) => {
   const onClick = (value: string) => {
-    if (value === "ENTER") {
-      onEnter();
-    } else if (value === "DELETE") {
-      onDelete();
-    } else {
-      console.log(value);
-      onChar(value);
+    switch (value) {
+      case "ENTER":
+        onEnterKey();
+        break;
+      case "DELETE":
+        onDeleteKey();
+        break;
+      default:
+        onAnyKey(value);
+        break;
     }
   };
 
   useEffect(() => {
     const listener = (e: KeyboardEvent) => {
-      if (e.code === "Enter") {
-        onEnter();
-      } else if (e.code === "Backspace") {
-        onDelete();
-      } else {
-        console.log(e.key);
-        const key = e.key.toUpperCase();
-        // TODO: check this test if the range works with non-english letters
-        if (key.length === 1 && key >= "A" && key <= "Z") {
-          onChar(key);
-        }
+      switch (e.code) {
+        case "Enter":
+          onEnterKey();
+          break;
+        case "Backspace":
+          onDeleteKey();
+          break;
+        default:
+          const key = e.key.toUpperCase();
+          if (key.length === 1 && key >= "A" && key <= "Z") {
+            onAnyKey(key);
+          }
+          break;
       }
     };
     window.addEventListener("keyup", listener);
     return () => {
       window.removeEventListener("keyup", listener);
     };
-  }, [onEnter, onDelete, onChar]);
+  }, [onEnterKey, onDeleteKey, onAnyKey]);
 
   return (
     <div>
