@@ -5,17 +5,9 @@ interface Props {
   onAnyKey: (value: string) => void;
   onDeleteKey: () => void;
   onEnterKey: () => void;
-  // solution: string;
-  // guesses: string[];
 }
 
-export const Keyboard = ({
-  onAnyKey,
-  onDeleteKey,
-  onEnterKey,
-}: // solution,
-// guesses,
-Props) => {
+export const Keyboard = ({ onAnyKey, onDeleteKey, onEnterKey }: Props) => {
   const onClick = (value: string) => {
     switch (value) {
       case "ENTER":
@@ -55,7 +47,7 @@ Props) => {
 
   return (
     <div>
-      <div className="mb-1 flex justify-center">
+      <div className="ml-8 mb-1 flex justify-center">
         {["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"].map((key) => (
           <Key value={key} key={key} onClick={onClick} />
         ))}
@@ -65,7 +57,7 @@ Props) => {
           <Key value={key} key={key} onClick={onClick} />
         ))}
       </div>
-      <div className="flex justify-center">
+      <div className="-ml-12 flex justify-center">
         <Key value="ENTER" onClick={onClick}>
           {"ENTER"}
         </Key>
