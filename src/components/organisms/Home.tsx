@@ -32,7 +32,7 @@ export const Home = () => {
     0,
     "counterVictory"
   );
-  const [counterDefeat, setCounterDefeat] = useLocalStorage(0, "counterDefeat");
+  const [counterGames, setCounterGames] = useLocalStorage(0, "counterGames");
 
   useEffect(() => {
     let interval: string | number | NodeJS.Timeout | undefined;
@@ -92,6 +92,7 @@ export const Home = () => {
                 setGameState({});
                 setMinutes(0);
                 setCounterVictory((victory: number) => victory + 1);
+                setCounterGames((defeat: number) => defeat + 1);
               }, 400);
             }
           });
@@ -128,7 +129,7 @@ export const Home = () => {
             setIsStatsModalOpen(true);
             setGameState({});
             setMinutes(0);
-            setCounterDefeat((defeat: number) => defeat + 1);
+            setCounterGames((defeat: number) => defeat + 1);
           }, 400);
         }
       });
@@ -204,7 +205,7 @@ export const Home = () => {
           />
           <StatisticsModal
             counterVictory={counterVictory}
-            counterDefeat={counterDefeat}
+            counterGames={counterGames}
             minutes={minutes}
             showModal={isStatsModalOpen}
             hideModal={() => setIsStatsModalOpen(false)}

@@ -8,13 +8,13 @@ interface Props {
   hideModal: () => void;
   minutes: number;
   counterVictory: number;
-  counterDefeat: number;
+  counterGames: number;
 }
 
 export const StatisticsModal = ({
   minutes,
   counterVictory,
-  counterDefeat,
+  counterGames,
   showModal,
   hideModal,
 }: Props) => {
@@ -26,14 +26,14 @@ export const StatisticsModal = ({
       hideModal={hideModal}
     >
       <div className="flex py-4 flex-row flex-nowrap justify-center ">
+        <p className="px-4 text-center font-bold text-sm text-gray-800 dark:text-gray-100">
+          Jugadas
+        </p>
+        <TextTitleBase>{counterGames}</TextTitleBase>
         <p className="px-4  font-bold text-sm text-gray-800 dark:text-gray-100">
           Victorias
         </p>
         <TextTitleBase>{counterVictory}</TextTitleBase>
-        <p className="px-4 text-center font-bold text-sm text-gray-800 dark:text-gray-100">
-          Derrotas
-        </p>
-        <TextTitleBase>{counterDefeat}</TextTitleBase>
       </div>
 
       <p className="px-4 py-1 text-center font-bold text-sm text-gray-800 dark:text-gray-100">
