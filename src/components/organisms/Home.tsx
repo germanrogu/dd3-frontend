@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { solution } from "../../utils/getRandomWord";
 import { Paper } from "../atoms/Paper";
@@ -10,6 +11,7 @@ import { DICTIONARY } from "../../utils/constants/Dictionary";
 import Swal from "sweetalert2";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { GRID_GAMES_VALUE } from "../../utils/constants/values";
+import { Timer } from "../atoms/Timer";
 
 export const Home = () => {
   const [solutionWord, setSolutionWord] = useState("");
@@ -19,6 +21,7 @@ export const Home = () => {
   const [wordsCompleted, setWordsCompleted] = useState<any>(() => {
     return Object.keys(gameState).length !== 0 ? gameState.wordsCompleted : [];
   });
+  const [minutes, setMinutes] = useLocalStorage(0, "minuteTimer");
   const [isVictory, setIsVictory] = useState(false);
   const [isDefeat, setIsDefeat] = useState(false);
   const [inputWord, setInputWord] = useState("");
@@ -26,6 +29,21 @@ export const Home = () => {
   const [darkToggle, setDarkToggle] = useState<boolean>(
     theme === null ? false : theme === "light" ? false : true
   );
+
+  useEffect(() => {
+    let interval: string | number | NodeJS.Timeout | undefined;
+    interval = setInterval(() => {
+      setMinutes((seconds: number) => seconds + 1);
+    }, 1000);
+    if (minutes === 300) {
+      clearInterval(interval);
+      setMinutes(0);
+      setTimeout(() => {
+        window.location.reload();
+      }, 400);
+    }
+    return () => clearInterval(interval);
+  }, [minutes]);
 
   const darkMode = (value: boolean) => {
     setDarkToggle(value);
@@ -67,6 +85,7 @@ export const Home = () => {
               setTimeout(() => {
                 setIsStatsModalOpen(true);
                 setGameState({});
+                setMinutes(0);
               }, 400);
             }
           });
@@ -161,6 +180,11 @@ export const Home = () => {
             setIsStatsModalOpen={setIsStatsModalOpen}
           />
         </Paper>
+
+        <Timer
+          minutes={Math.floor(minutes / 60)}
+          seconds={minutes - Math.floor(minutes / 60) * 60}
+        />
 
         <div className="mx-auto flex w-full grow flex-col px-1 pt-2 pb-8 sm:px-6 md:max-w-7xl lg:px-8 short:pb-2 short:pt-2">
           <div className="flex grow flex-col justify-center pb-6 short:pb-2">
