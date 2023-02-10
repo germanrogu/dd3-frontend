@@ -7,11 +7,9 @@ import { InstructionsModal } from "../molecules/InstructionsModal";
 import { Keyboard } from "../molecules/Keyboard";
 import { PrincipalBar } from "../molecules/PrincipalBar";
 import { StatisticsModal } from "../molecules/StatisticsModal";
-import { DICTIONARY } from "../../utils/constants/Dictionary";
 import Swal from "sweetalert2";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { GRID_GAMES_VALUE } from "../../utils/constants/values";
-import { isStringInArray } from "../../utils/compareStatusLetter";
 
 export const Home = () => {
   const [solutionWord, setSolutionWord] = useState("");
@@ -142,19 +140,6 @@ export const Home = () => {
         position: "top-end",
         icon: "warning",
         title: "Faltan letras",
-        showConfirmButton: false,
-        timer: 1500,
-        width: 300,
-        heightAuto: true,
-      });
-      return;
-    }
-
-    if (!isStringInArray(inputWord.toLowerCase(), DICTIONARY)) {
-      Swal.fire({
-        position: "top-end",
-        icon: "warning",
-        title: "Palabra no encontrada",
         showConfirmButton: false,
         timer: 1500,
         width: 300,
