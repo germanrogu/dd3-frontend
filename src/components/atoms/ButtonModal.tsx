@@ -15,7 +15,7 @@ export const ButtonModal = ({
     <button
       className={`${
         type === "circle" && "rounded-full"
-      } ${className} text-2xl flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800`}
+      } ${className} text-2xl flex items-center bg-zinc-200 hover:bg-zinc-300 text-gray-800`}
       onClick={clickFunction}
     >
       {children}
